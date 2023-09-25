@@ -1,0 +1,36 @@
+function AND-OR-GRAPH-SEARCH(problem) returns a conditional plan, or failure 
+    OR-SEARCH(problem.INITIAL-STATE, problem. [])
+    prevReachedNodes = [node_status] //a list containing all previously seen nodes and a state indicating if that node was on a path to SUCCESS OR FAILURE
+
+
+function OR-SEARCH(state, problem, path) returns a conditional plan, or failure 
+    if problem.GOAL-TEST(state) then 
+        addToPrevReachedNodes(path, success)
+        return the empty plan
+    if prevReachedNodes[state] == FAILURE
+        return failure //Go back up and search another path, this one is a failure.
+    if state is on path then 
+        addToPrevReachedNodes(path[state, path.length], FAILURE) //insert the states between the state and the one you saw before state.
+        return failure 
+    for each action in problem.ACTIONS(state) do
+        plan = AND-SEARCH(RESULTS(state, action), problem,[state path])
+        if plan failure then 
+        addToPrevReachedNodes(path, FAILURE)                    //insert all states in path as failures.
+        return plan.prepend[action]
+    return failure
+
+function AND-SEARCH(states,problem.path) returns a conditional plan, or failure
+    for each s in states do 
+        plan[i] = OR-SEARCHES problem, path
+        if plan[i] failure then 
+            prevReachedNodes(path, FAILURE);
+            return failure
+
+    return if s[i], then plan[1], else if s[2] then plan[2], else ... if s[n-1] then plan[n-1] else plan[n]
+
+
+addToPrevReachedNodes(path, status)
+    for state in path[state, path.length]: //Add all nodes that were discovered after "state" until the previously discovered node
+        if node.status != SUCCESS                           //The node could be upgraded to SUCCESS from FAILURE, or set to FAILURE/SUCCESS, or kept at FAILURE
+            prevReachedNodes[state] = status
+  
