@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Methods </title>
+</head>
+
+<body>
+    Author: Robert Holeman <br>
+    ISU Netid : holeman3@iastate.edu<br>
+    Date:  November 10, 2023<br>
+
+
+    <h1>Request Method.</h1>
+
+    <h1>Get Method.</h1>
+
+    <button onclick="getMethod()">Show All users</button>
+
+    <h1>Output:</h1>
+    <pre id="showData"></pre>
+
+
+    <div id="showRobots"> </div>
+    <script>
+        function getMethod() {
+            fetch('http://localhost:8081/listRobots')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // var container = document.getElementById("showData");
+                    // container.innerHTML = JSON.stringify(data, undefined, 2);
+                    loadRobots(data);
+                })
+        };
+
+        function loadRobots(myRobots) {
+            var mainContainer = document.getElementById("showRobots");
+            for (var i = 0; i < myRobots.length; i++) {
+                let name = myRobots[i].name;
+                let price = myRobots[i].price;
+                let description = myRobots[i].description;
+                let imageUrl = myRobots[i].imageUrl;
+                let div = document.createElement("div");
+                div.innerHTML = `
+                    <h3>${name}</h3>
+                    ${price} <br>
+                    ${description} <br>
+                    <img src=${imageUrl} width="200"> <br> <br>
+                    `;
+                mainContainer.appendChild(div);
+                console.log(div);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
