@@ -44,12 +44,4 @@ app.get("/:id", async (req, res) => {
     if (!results) res.send("Not Found").status(404);
     else res.send(results).status(200);
     });
-    function getMethodById(id) {
-        fetch('http://localhost:8081/' + id)
-        .then(response => response.json())
-        .then(data => {
-        console.log(data);
-        var container = document.getElementById("showData");
-        container.innerHTML = JSON.stringify(data,undefined,2);
-        });
-        };    
+    
