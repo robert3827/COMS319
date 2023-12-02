@@ -20,11 +20,7 @@
 
     <button onclick="getMethod()">Show All users</button>
 
-    <h1>Output:</h1>
-    <pre id="showData"></pre>
-
-
-    <div id="showRobots"> </div>
+    
 
 
     <h1>Get Method .</h1>
@@ -32,6 +28,21 @@
     <button onclick="getMethodById('2')">Show robot 2</button>
     <button onclick="getMethodById('3')">Show robot 3</button>
 
+
+    <h1>Post Method. </h1>
+    <button onclick="postMethod()">Post User</button>
+
+    <h1>DELETE Method .</h1>
+    <label for="integerInput">Robot to delete :</label>
+    <input type="number" id="integerInput">
+    <button onclick="handleButtonClick()">Delete</button>
+
+
+    <h1>Output:</h1>
+    <pre id="showData"></pre>
+
+
+    <div id="showRobots"> </div>
     <script>
         function getMethod() {
             fetch('http://localhost:8081/listRobots')
@@ -47,17 +58,13 @@
         function loadRobots(myRobots) {
             var mainContainer = document.getElementById("showRobots");
             for (var i = 0; i < myRobots.length; i++) {
-                let name = myRobots[i].name;
-                let price = myRobots[i].price;
-                let description = myRobots[i].description;
-                let imageUrl = myRobots[i].imageUrl;
-                let div = document.createElement("div");
-                div.innerHTML = `
-                    <h3>${name}</h3>
-                    ${price} <br>
-                    ${description} <br>
-                    <img src=${imageUrl} width="200"> <br> <br>
-                    `;
+                let name = myRobots[i].name; let price = myRobots[i].price; let
+                    description = myRobots[i].description; let imageUrl = myRobots[i].imageUrl; let div = document.createElement("div");
+                div.innerHTML = ` <h3>${name}</h3>
+        ${price} <br>
+        ${description} <br>
+        <img src=${imageUrl} width="200"> <br> <br>
+        `;
                 mainContainer.appendChild(div);
                 console.log(div);
             }
@@ -72,6 +79,61 @@
                     container.innerHTML = JSON.stringify(data, undefined, 2);
                 });
         };
+        function deleteMethod(id) {
+            console.log("Delete Method Called")
+            console.log("Lets do Delete ....", id);
+            fetch('http://localhost:8081/deleteRobot', {
+                method: "DELETE",
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(
+                    {
+                        "id": id
+                    }
+                )
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    var container = document.getElementById("showData");
+                    container.innerHTML = JSON.stringify(data);
+                })
+                .catch((err) => console.log("Errror:" + err))
+        }
+        function postMethod() {
+            console.log("Post Method Called");
+            fetch('http://localhost:8081/addRobot', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(
+                    {
+                        "id": 4,
+                        "name": "Robot Abraham",
+                        "price": 100.90,
+                        "description": "I robot is one example of an image for my exercise",
+                        "imageUrl": "https://robohash.org/Abraham"
+                    }
+                )
+            }).then(response=>response.json())
+            .then(data => {
+                console.log(data);
+                var container = document.getElementById("showData");
+                container.innerHTML = JSON.stringify(data);
+            })
+        }
+
+
+        function handleButtonClick() {
+            // Get the input element
+            var inputElement = document.getElementById('integerInput');
+            // Get the value entered by the user
+            var inputValue = inputElement.value;
+            // Convert the input value to an integer
+            var integerInput = parseInt(inputValue);
+            // Call your function with the integer parameter
+            deleteMethod(integerInput);
+        }
+
+
 
     </script>
 </body>
